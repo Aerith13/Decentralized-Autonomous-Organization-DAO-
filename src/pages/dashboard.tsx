@@ -1,29 +1,37 @@
 import { useTheme } from '../ThemeContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { ConnectButton } from "thirdweb/react"
+import { client } from './client'
+import { useRouter } from 'next/router'
 
 const Dashboard = () => {
   const { theme, toggleTheme } = useTheme()
   const [activeTab, setActiveTab] = useState('overview')
+  const router = useRouter()
+
+  // Replace the existing nav section with this:
+  const renderNav = () => (
+    <nav className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex items-center">
+        <h1 className="text-xl font-bold">DecentDAO</h1>
+      </div>
+      <div className="flex items-center gap-4">
+        <ConnectButton 
+          client={client} 
+          onDisconnect={() => router.push('/')}
+        />
+        <button onClick={toggleTheme} className="p-2 rounded-full">
+          {theme === 'dark' ? '🌞' : '🌙'}
+        </button>
+      </div>
+    </nav>
+  )
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
       theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-blue-50 text-gray-900'
     }`}>
-      {/* Navigation */}
-      <nav className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex items-center">
-          <h1 className="text-xl font-bold">DecentDAO</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400">
-            Connected: 0x1234...5678
-          </div>
-          <button onClick={toggleTheme} className="p-2 rounded-full">
-            {theme === 'dark' ? '🌞' : '🌙'}
-          </button>
-        </div>
-      </nav>
-
+      {renderNav()}
       {/* Sidebar and Main Content */}
       <div className="flex">
         {/* Sidebar */}

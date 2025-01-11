@@ -1,10 +1,17 @@
 import { useTheme } from '../ThemeContext'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { client } from './client'
-import { ConnectButton } from 'thirdweb/react'
+import { ConnectButton } from "thirdweb/react"
+
+import { useRouter } from 'next/router'
 
 const Home = () => {
   const { theme, toggleTheme } = useTheme()
+  const router = useRouter()
+
+  const handleConnect = () => {
+    router.push('/dashboard')
+  }
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
@@ -18,10 +25,10 @@ const Home = () => {
           <button onClick={toggleTheme} className="p-2 rounded-full">
             {theme === 'dark' ? '🌞' : '🌙'}
           </button>
-          {/*<button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-            Connect Wallet
-          </button> */}
-          <ConnectButton client={client} />
+          <ConnectButton 
+            client={client}
+            onConnect={handleConnect}
+          />
         </div>
       </nav>
 
