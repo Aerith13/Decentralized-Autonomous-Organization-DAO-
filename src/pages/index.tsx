@@ -2,6 +2,7 @@ import { useTheme } from '../ThemeContext'
 import { useEffect } from 'react'
 import { client } from './client'
 import { ConnectButton } from "thirdweb/react"
+import { Sun, Moon } from 'lucide-react'
 
 import { useRouter } from 'next/router'
 
@@ -22,8 +23,8 @@ const Home = () => {
           <h1 className="text-xl font-bold">DecentDAO</h1>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={toggleTheme} className="p-2 rounded-full">
-            {theme === 'dark' ? '🌞' : '🌙'}
+          <button onClick={toggleTheme} className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <ConnectButton 
             client={client}
